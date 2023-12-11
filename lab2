@@ -1,0 +1,93 @@
+## Q1 ##
+#!/bin/bash
+
+echo "What's your name ?"
+read name
+echo "Hello $name"
+
+## Q2 ##
+#!/bin/bash
+
+# First Method #
+# S1 #
+x=5
+export x
+bash ~/scripts/s2
+
+# s2 #
+echo $x
+
+# Second Method #
+# S1 #
+x=5
+bash ~/scripts/s2 $x
+# s2 #
+echo "$1"
+
+
+## Q3 ##
+#!/bin/bash
+
+if [ $# -lt 2 ]; then
+    echo "You must insert at least 2 arguments"
+elif [ $# -eq 2 -a -f $1 -a -f $2 ]; then
+    cp $1 $2
+else
+    cp ${@:1:$#-1} ${@:$#}
+fi
+
+## Q4 ##
+#!/bin/bash
+
+if [ "$#" -eq 0 ]; then
+    cd "$HOME"
+elif [ "$#" -eq 1 ]; then
+    cd "$1"
+else
+    echo "You must enter 1 directory at maximum"
+fi
+
+## Q5 ##
+#!/bin/bash
+
+if [ $# -eq 0 ]; then
+        ls
+elif [ $# -eq 1 ]; then
+        ls $1
+else
+        echo "only one arguments allowed"
+fi
+
+## Q6 ##
+#!/bin/bash
+if [ $# -lt 1 ]; then
+        echo "only one arguments allowed"
+
+elif [ $# -eq 0 ]; then
+        ls
+elif [ $# -eq 1 ]; then
+        ls $1
+elif [ $1 -eq "-l" ]; then
+        ls -l
+elif [ $1 -eq "-a" ]; then
+        ls -a
+elif [ $1 -eq "-d" ]; then
+        ls -d
+elif [ $1 -eq "-i" ]; then
+        ls -i
+elif [ $1 -eq "-R" ]; then
+        ls -R
+fi
+
+## Another solution ##
+#!/bin/bash
+if [ $# -gt 1 ]; then
+        echo "only one arguments allowed"
+
+elif [ $# -eq 0 ]; then
+        ls
+elif [ $# -eq 1 ]; then
+        ls $1
+elif [ $1 -eq "-l" -o $1 -eq "-a" $1 -eq "-d" $1 -eq "-i" $1 -eq "-R" ]; then
+        ls $1
+fi
