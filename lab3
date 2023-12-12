@@ -1,0 +1,83 @@
+## Q1 ##
+#!/bin/bash
+
+read -p "Enter any character: " c
+
+case $c in
+[a-z]) echo "Lower case"
+;;
+[A-Z]) echo "Upper case"
+;;
+[0-9]) echo "Number"
+;;
+"") echo "Nothing"
+;;
+*) echo "Special Character"
+;;
+esac
+
+
+## Q2 ##
+#!/bin/ksh
+echo "Enter a string: "
+read c
+case $c in
+	+([A-Z])) echo "Upper Cases";;
+	+([a-z])) echo "Lower Cases";;
+	+([0-9])) echo "Numbers";;
+	"") echo "Nothing";;
+	*) echo "Mix";;
+esac
+
+## Q3 ##
+#!/bin/bash
+
+cd ~
+for item in *; do
+    if [ -f "$item" ] || [ -d "$item" ]; then
+        # Give execute permission to owner, group, and others
+        chmod +x "$item"
+        echo "Execute permission granted for: $item"
+    fi
+done
+
+## Q4 ##
+#!/bin/bash
+
+backup_dir=~/backup
+mkdir -p "$backup_dir"
+for file in ~/; do
+    if [ -f "$file" ]; then
+        cp "$file" "$backup_dir/"
+        echo "Backup created for: $file"
+    fi
+done
+
+## Q5 ##
+#!/bin/bash
+
+template="mtemplate"
+if [ ! -f "$template" ]; then
+    echo "Error: Mail template file '$template' not found."
+    exit 1
+fi
+for user in $(cut -d: -f1 /etc/passwd); do
+    mail -s "Hi from mymail script" "$user" < "$template"
+    echo "Mail sent to: $user"
+done
+echo "Done!"
+
+## Q6 ##
+#!/bin/bash
+
+while true; do
+    for user_mail in /var/mail/*; do
+        username=$(basename "$user_mail")
+        if mail -H "$username" 2>/dev/null | grep -q "^Status: R"; then
+            echo "New mail for user: $username"
+        fi
+    done
+    sleep 10
+done
+
+
