@@ -91,3 +91,50 @@ elif [ $# -eq 1 ]; then
 elif [ $1 -eq "-l" -o $1 -eq "-a" $1 -eq "-d" $1 -eq "-i" $1 -eq "-R" ]; then
         ls $1
 fi
+
+
+## Q7 ##
+#!/bin/bash
+
+if [ $# -eq 0 ]; then
+    echo "Usage: requires at least one argument"
+    exit 1
+fi
+
+arg=$1
+if [ -e "$arg" ]; then
+    if [ -f "$arg" ]; then
+        echo "$arg is a regular file."
+    elif [ -d "$arg" ]; then
+        echo "$arg is a directory."
+    else
+        echo "$arg exists but is neither a regular file nor a directory."
+    fi
+    if [ -r "$arg" ]; then
+        echo "Readable."
+    fi
+
+    if [ -w "$arg" ]; then
+        echo "Writable."
+    fi
+
+    if [ -x "$arg" ]; then
+        echo "Executable."
+    fi
+else
+    echo "$arg does not exist."
+fi
+
+
+## Q8 ##
+#!/bin/bash
+read -p "Enter your logname: " name
+if grep -qw ^$name /etc/passwd
+then
+ls -al `awk -F: -v name=$name '{if ($1==name) print $6}' /etc/passwd`
+echo -e "\nCopying files and directories to /tmp..."
+cp -r /home/$name/* /tmp
+ps -u $name
+else
+echo "unkown user"
+fi
